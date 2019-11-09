@@ -1,6 +1,6 @@
 
 import React from 'react';
-import styles from './App.module';
+import styles from './App.module.scss';
 
 class App extends React.PureComponent {
 	render() {
