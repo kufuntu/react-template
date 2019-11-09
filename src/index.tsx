@@ -3,4 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import './styles/global';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+if(typeof(module.hot) !== 'undefined') {
+    module.hot.accept();
+}
+
+ReactDOM.hydrate(<App />, document.getElementById('root'));

@@ -29,8 +29,10 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
+    "types": ["react"],
     "typeRoots": [
       "./src/types"
-    ]
-  }
+    ],
+  },
+  "exclude": ["node_modules"]
 }

@@ -1,12 +1,10 @@
-
 import React from 'react';
-import styles from './App.module.scss';
 
 class App extends React.PureComponent {
 	render() {
 		return (
 			<div>
-				<h1 className={styles.red}>Hello World!</h1>
+				<h1>Hello World!</h1>
 			</div>
 		);
 	}
