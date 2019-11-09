@@ -9,7 +9,7 @@ export interface AppState {
     router: RouterState;
 };
 
-export function initStore(req: Request) {
+export function initStore(req?: Request) {
     const history = isServer ? createMemoryHistory({
         initialEntries: [req.url]
     }) : createBrowserHistory();
