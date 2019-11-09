@@ -2,7 +2,8 @@ import express from "express";
 import path from "path";
 import React from "react";
 import { renderToString } from "react-dom/server";
-import App from "../components/App";
+import App from "../ServerApp";
+import { initStore } from '../store';
 
 const isDev = process.env.NODE_ENV !== "production";
 
@@ -21,6 +22,7 @@ export function createApp() {
     app.use(webpackHotMiddleware(compiler));
     app.use(
       webpackDevMiddleware(compiler, {
+        index: false,
         publicPath: '/'
       })
     );
@@ -28,19 +30,22 @@ export function createApp() {
     staticPath = path.resolve(__dirname, "../client/public/");
   }
 
+  app.use('/favicon.ico', (_req, res) => res.status(200).send());
   app.use("/public", express.static(staticPath));
 
-  app.get("/*", (_req, res) => {
-    const jsx = <App />;
+  app.get("/*", (req, res) => {
+    const { store } = initStore(req);
+    const jsx = <App req={req} store={store} />;
     const reactDom = renderToString(jsx);
+    const reduxState = store.getState();
 
     res.writeHead(200, { "Content-Type": "text/html" });
-    res.end(htmlTemplate(reactDom));
+    res.end(htmlTemplate(reactDom, reduxState));
   });
   return app;
 }
 
-function htmlTemplate(reactDom: string) {
+function htmlTemplate(reactDom: string, reduxState: any) {
   const style = isDev ? "" : '<link href="./public/main.css" rel="stylesheet">';
   return `<!DOCTYPE html>
 <html>
@@ -52,6 +57,9 @@ function htmlTemplate(reactDom: string) {
 
 <body>
     <div id="root">${reactDom}</div>
+    <script>
+        window.REDUX_DATA = ${ JSON.stringify( reduxState ) }
+    </script>
     <script src="./public/bundle.js"></script>
 </body>
 </html>`;

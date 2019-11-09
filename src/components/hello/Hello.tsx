@@ -1,6 +1,6 @@
 import React from 'react';
 
-class App extends React.PureComponent {
+class Hello extends React.PureComponent {
 	render() {
 		return (
 			<div>
@@ -10,4 +10,4 @@ class App extends React.PureComponent {
 	}
 }
 
-export default App;
+export default Hello;
